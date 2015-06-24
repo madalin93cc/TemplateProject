@@ -1,8 +1,10 @@
 package demo;
 
+import org.gjt.mm.mysql.Driver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -26,8 +28,9 @@ public class DataSourceConfig {
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws SQLException {
         LocalContainerEntityManagerFactoryBean lef = new LocalContainerEntityManagerFactoryBean();
-//        lef.setDataSource();
+        lef.setDataSource(dataSource());
         lef.setPackagesToScan("demo");
+
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         lef.setJpaVendorAdapter(vendorAdapter);
 
@@ -39,6 +42,17 @@ public class DataSourceConfig {
         return lef;
     }
 
+    @Bean
+    public SimpleDriverDataSource dataSource() throws SQLException {
+        SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
+        Driver driver = new Driver();
+        dataSource.setDriver(driver);
+        dataSource.setUrl("jdbc:mysql://localhost:3306/test");
+        dataSource.setUsername("root");
+        dataSource.setPassword("");
+
+        return dataSource;
+    }
 
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf){

@@ -39,7 +39,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-social-linkedin")
     compile("org.springframework.boot:spring-boot-starter-social-twitter")
     compile("org.springframework.boot:spring-boot-starter-web")
-    runtime("mysql:mysql-connector-java")
+    compile("mysql:mysql-connector-java:5.1.6")
     testCompile("org.springframework.boot:spring-boot-starter-test") 
 }
 
